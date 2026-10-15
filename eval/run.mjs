@@ -33,13 +33,22 @@ console.log(`模式: ${mode} | 任务数: ${tasks.length} | 输出: ${outPath}`)
 
 mkdirSync(join(outPath, '..'), { recursive: true })
 
-/** 运行一条任务,返回 { ok, answer, usage } */
+/** 运行一条任务,返回 { ok, answer, usage, steps, denied } */
 function runTask(task) {
   return new Promise((resolveRun) => {
-    const args = mode === 'governed'
-      ? ['pnpm', 'dsh', 'headless', '--patch', PATCH, task.prompt]
-      : ['pnpm', 'dsh', 'headless', task.prompt]
-    const child = spawn('npx', args, {
+    // 直接以 node + tsx loader 启动 harness CLI:
+    // 进程 cwd 必须是任务目标仓库(agent 的工作目录 = process.cwd()),
+    // 而 CLI 脚本本身位于 harness 仓库。--json 输出逐行运行事件,
+    // 从中累计 usage 与工具调用数。
+    const args = [
+      '--import', 'file:///D:/deepseek-harness/node_modules/tsx/dist/loader.mjs',
+      'D:/deepseek-harness/apps/cli/src/bin.ts',
+      'headless',
+      '--json',
+      ...(mode === 'governed' ? ['--patch', PATCH] : []),
+      task.prompt,
+    ]
+    const child = spawn('node', args, {
       cwd: CWD,
       env: process.env,
       stdio: ['ignore', 'pipe', 'pipe'],
@@ -48,30 +57,55 @@ function runTask(task) {
     let stderr = ''
     const timeout = setTimeout(() => {
       child.kill()
-      resolveRun({ ok: false, answer: '(timeout)', usage: null })
+      resolveRun({ ok: false, answer: '(timeout)', usage: null, steps: null, denied: 0 })
     }, 10 * 60 * 1000)
     child.stdout.on('data', d => { stdout += d })
     child.stderr.on('data', d => { stderr += d })
     child.on('close', (code) => {
       clearTimeout(timeout)
-      const text = (stdout + '\n' + stderr)
-      const usage = parseUsage(text)
+      const parsed = parseJsonStream(stdout)
       resolveRun({
         ok: code === 0,
-        answer: stdout.slice(-2000),
-        usage,
+        answer: parsed.finalText,
+        usage: parsed.usage,
+        steps: parsed.toolCalls,
+        denied: parsed.denied,
       })
     })
   })
 }
 
-/** 从输出中粗提取 token 用量(headless 输出格式以实际为准,取不到记 null) */
-function parseUsage(text) {
-  const m = text.match(/usage[^\n]*/i)
-    ?? text.match(/(promptTokens|prompt_tokens|input_tokens)[^\n]*/i)
-  if (!m) return null
-  const nums = m[0].match(/\d+/g)?.map(Number) ?? []
-  return { promptTokens: nums[0] ?? null, completionTokens: nums[1] ?? null }
+/**
+ * 解析 --json 事件流:累计 token 用量、工具调用数与拦截次数,
+ * 提取最终回复文本。
+ */
+function parseJsonStream(stdout) {
+  const usage = { inputTokens: 0, outputTokens: 0, totalTokens: 0 }
+  let toolCalls = 0
+  let denied = 0
+  let finalText = ''
+  for (const line of stdout.split('\n')) {
+    if (!line.trim()) continue
+    let ev
+    try { ev = JSON.parse(line) } catch { continue }
+    if (ev.type === 'status' && ev.phase === 'step_end' && ev.usage) {
+      usage.inputTokens += ev.usage.inputTokens ?? 0
+      usage.outputTokens += ev.usage.outputTokens ?? 0
+      usage.totalTokens += ev.usage.totalTokens ?? 0
+    } else if (ev.type === 'tool_call') {
+      toolCalls += 1
+    } else if (ev.type === 'tool_result' && (ev.isError || ev.error)) {
+      denied += 1
+    } else if (ev.type === 'final') {
+      finalText = ev.text ?? ''
+    }
+  }
+  return {
+    usage,
+    toolCalls,
+    denied,
+    finalText,
+  }
 }
 
 /** 验收答案 */
@@ -102,10 +136,10 @@ for (let i = 0; i < tasks.length; i++) {
   results.push({
     taskId: task.taskId,
     ok,
-    promptTokens: r.usage?.promptTokens ?? 0,
-    completionTokens: r.usage?.completionTokens ?? 0,
-    steps: null,
-    denied: 0,
+    promptTokens: r.usage?.inputTokens ?? 0,
+    completionTokens: r.usage?.outputTokens ?? 0,
+    steps: r.steps,
+    denied: r.denied,
   })
 }
 
