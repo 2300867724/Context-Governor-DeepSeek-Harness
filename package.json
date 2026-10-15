@@ -1,0 +1,32 @@
+{
+  "name": "context-governor",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 上下文治理插件:按需工具裁剪、分层权限闸门、分层工具结果剪枝",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "plugin",
+    "context",
+    "mcp",
+    "agent"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "@deepseek-ai/cordis": "^4.0.4",
+    "@deepseek-ai/schemastery": "^3.18.4"
+  },
+  "devDependencies": {
+    "@standard-schema/spec": "^1.1.0",
+    "@types/node": "^24.0.0",
+    "typescript": "^5.8.0",
+    "zod": "^4.6.7"
+  }
+}

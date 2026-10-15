@@ -1,0 +1,27 @@
+# context-governor 插件加载补丁
+# 使用方式(在 deepseek-harness 仓库内):
+#   pnpm dsh web --patch D:/context-governor/cordis.patch.yml
+# 或在 dsh 配置中引用本文件。
+- insert:
+    - id: context-governor
+      name: D:/context-governor/src/index.ts
+      config:
+        toolFilter:
+          enabled: true
+          profiles:
+            - id: read-only
+              keywords: [查看, 检索, 搜索, 阅读, 分析, 理解, 定位, 排查, 解释, 总结, 梳理]
+              denyTools: [write_file, edit, apply_patch, save, create, delete, remove, install, bash, shell, terminal, run_code, exec]
+          knownTools: []
+        guard:
+          enabled: true
+          workspaceRoots: []
+          readOutside: ask
+          write: ask
+          command: ask
+        pruner:
+          enabled: true
+          threshold: 8000
+          head: 1200
+          tail: 1200
+          goalKeywords: []

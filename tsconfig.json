@@ -1,0 +1,20 @@
+{
+  // extends 引入 tsconfig.paths.json(由 deepseek-harness 的
+  // tsconfig.base.json 自动生成,@deepseek-ai/* 全部映射到本地源码)
+  "extends": "./tsconfig.paths.json",
+  "compilerOptions": {
+    "target": "ES2024",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2024"],
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"]
+}
