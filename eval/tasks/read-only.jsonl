@@ -1,0 +1,10 @@
+{"taskId":"ro-01","type":"read-only","prompt":"阅读 src/core/danger.ts,总结危险级别是如何划分的,以及各级别对应的工具名特征。","accept":{"kind":"contains","must":["safe","read-outside","write","command"]}}
+{"taskId":"ro-02","type":"read-only","prompt":"查看 src/core/prune.ts,说明分层剪枝策略:头尾预算如何折算成行数,中段内容如何筛选。","accept":{"kind":"contains","must":["headLines","tailLines","goalKeywords"]}}
+{"taskId":"ro-03","type":"read-only","prompt":"检索项目中所有使用 ctx.on 注册事件监听器的位置,列出事件名。","accept":{"kind":"contains","must":["tools/pre-execute","agent/pre-step"]}}
+{"taskId":"ro-04","type":"read-only","prompt":"阅读 README.md,总结本插件解决哪三个问题。","accept":{"kind":"contains","must":["工具裁剪","权限闸门","剪枝"]}}
+{"taskId":"ro-05","type":"read-only","prompt":"查看 cordis.patch.yml,说明插件如何被加载,以及 guard 的默认策略是什么。","accept":{"kind":"contains","must":["ask","context-governor"]}}
+{"taskId":"ro-06","type":"read-only","prompt":"阅读 src/core/classify.ts,说明任务画像匹配规则和 denyTools 的 glob 匹配方式。","accept":{"kind":"contains","must":["keywords","matchesTool"]}}
+{"taskId":"ro-07","type":"read-only","prompt":"定位 src/guard.ts 中权限决策的 switch 分支,说明 allow/ask/deny 分别返回什么。","accept":{"kind":"contains","must":["kind","reason"]}}
+{"taskId":"ro-08","type":"read-only","prompt":"查看 tests/core.test.ts,列出针对危险度分级(computeDanger)的测试覆盖了哪几种情况。","accept":{"kind":"contains","must":["command","read-outside","safe"]}}
+{"taskId":"ro-09","type":"read-only","prompt":"阅读 src/pruner.ts,说明 pruneSession 与官方剪枝器的 shadow-price 记账协议是什么。","accept":{"kind":"contains","must":["shadowedRange","surfaceOp"]}}
+{"taskId":"ro-10","type":"read-only","prompt":"查看 tsconfig.paths.json 的用途,说明为什么需要把 @deepseek-ai/* 映射到本地源码。","accept":{"kind":"contains","must":["deepseek-harness"]}}

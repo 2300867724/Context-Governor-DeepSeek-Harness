@@ -41,7 +41,12 @@ export class ContextGovernor extends Service {
     attachToolFilter(ctx, this.resolved.toolFilter)
     attachGuard(ctx, this.resolved.guard)
     if (this.resolved.pruner.enabled) {
-      new HierarchicalPruner(ctx, this.resolved.pruner)
+      // toolResultPruner 服务名唯一:默认 profile 已注册官方剪枝器时让位,
+      // 需要用本插件剪枝器时,在 profile 补丁中把官方插件禁用
+      // (见 eval/cordis.eval.yml 的 tool-result-pruner disabled 条目)。
+      if (!ctx.get('toolResultPruner')) {
+        new HierarchicalPruner(ctx, this.resolved.pruner)
+      }
     }
   }
 }

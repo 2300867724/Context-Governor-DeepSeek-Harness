@@ -1,0 +1,31 @@
+# 评测专用补丁:headless 模式下无审批服务,闸门放行,
+# 只测「工具裁剪 + 分层剪枝」对 token 用量的影响。
+# 闸门拦截效果用 eval/tasks/guard.jsonl 单独评测(deny 场景)。
+
+# 禁用默认 profile 的官方剪枝器,让本插件注册自己的分层剪枝服务
+- id: tool-result-pruner
+  disabled: true
+
+- insert:
+    - id: context-governor
+      name: D:/context-governor/src/index.ts
+      config:
+        toolFilter:
+          enabled: true
+          profiles:
+            - id: read-only
+              keywords: [查看, 检索, 搜索, 阅读, 分析, 理解, 定位, 排查, 解释, 总结, 梳理]
+              denyTools: [write_file, edit, apply_patch, save, create, delete, remove, install, bash, shell, terminal, run_code, exec]
+          knownTools: []
+        guard:
+          enabled: true
+          workspaceRoots: [D:/context-governor]
+          readOutside: allow
+          write: allow
+          command: allow
+        pruner:
+          enabled: true
+          threshold: 600
+          head: 120
+          tail: 120
+          goalKeywords: [src/core, tests, README]

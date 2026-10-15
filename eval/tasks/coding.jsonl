@@ -1,0 +1,10 @@
+{"taskId":"cd-01","type":"coding","prompt":"在 src/core/classify.ts 中为 DEFAULT_PROFILES 增加一个 'debug' 画像:keywords 包含 调试/断点/单步,denyTools 包含 write_file。注意只改这一个文件。","accept":{"kind":"grep","file":"src/core/classify.ts","pattern":"debug"}}
+{"taskId":"cd-02","type":"coding","prompt":"在 src/core/danger.ts 的 extractPaths 函数上方补充一段 JSDoc 注释,说明它递归提取参数中的路径。","accept":{"kind":"grep","file":"src/core/danger.ts","pattern":"递归提取"}}
+{"taskId":"cd-03","type":"coding","prompt":"给 src/core/prune.ts 的 pruneText 增加一个保护:当 goalKeywords 为空时跳过关键词保留逻辑(现状空数组时 lineScore 恒为 0,行为等价,但注释说明)。","accept":{"kind":"grep","file":"src/core/prune.ts","pattern":"goalKeywords"}}
+{"taskId":"cd-04","type":"coding","prompt":"在 tests/core.test.ts 中新增一个测试:验证 isPathLike 对 'C:/a/b.txt' 返回 true、对 '普通文本' 返回 false。","accept":{"kind":"grep","file":"tests/core.test.ts","pattern":"isPathLike"}}
+{"taskId":"cd-05","type":"coding","prompt":"在 README.md 的 Roadmap 里把 'LLM 分类器' 这一行标注为 (规划中)。","accept":{"kind":"grep","file":"README.md","pattern":"规划中"}}
+{"taskId":"cd-06","type":"coding","prompt":"给 src/core/classify.ts 增加一个导出函数 profileCount(profiles) 返回画像数量,并在 tests 中加一个断言验证 DEFAULT_PROFILES 数量为 1。","accept":{"kind":"grep","file":"src/core/classify.ts","pattern":"profileCount"}}
+{"taskId":"cd-07","type":"coding","prompt":"在 src/config.ts 的 PrunerConfig 中把 threshold 默认值从 8000 改为 9000,并同步更新 resolveConfig 的兜底默认值。","accept":{"kind":"grep","file":"src/config.ts","pattern":"9000"}}
+{"taskId":"cd-08","type":"coding","prompt":"给 src/guard.ts 的 reasonText 增加 'read-outside' 场景下路径越界的提示细节:当 outside 为 true 时,reason 中附上 '越界路径已记录'。","accept":{"kind":"grep","file":"src/guard.ts","pattern":"越界路径已记录"}}
+{"taskId":"cd-09","type":"coding","prompt":"在 eval/tasks/ 下新建一个文件 coding-extra.jsonl,内容为一行注释性 JSON 任务,并在 README.md 的评测任务集段落提一句该文件的存在。","accept":{"kind":"grep","file":"README.md","pattern":"coding-extra"}}
+{"taskId":"cd-10","type":"coding","prompt":"把 cordis.patch.yml 中 guard 的 write 策略从 ask 改为 deny,并说明这是演示配置。","accept":{"kind":"grep","file":"cordis.patch.yml","pattern":"deny"}}
