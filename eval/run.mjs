@@ -35,6 +35,7 @@ mkdirSync(join(outPath, '..'), { recursive: true })
 
 /** 运行一条任务,返回 { ok, answer, usage, steps, denied } */
 function runTask(task) {
+  let retries = 0
   return new Promise((resolveRun) => {
     // 直接以 node + tsx loader 启动 harness CLI:
     // 进程 cwd 必须是任务目标仓库(agent 的工作目录 = process.cwd()),
@@ -65,6 +66,13 @@ function runTask(task) {
     child.on('close', (code) => {
       clearTimeout(timeout)
       const parsed = parseJsonStream(stdout)
+      // 瞬态失败(0 token 直接退出,疑似限流)重试一次
+      const instant = parsed.usage.inputTokens === 0 && parsed.toolCalls === 0
+      if (instant && code !== 0 && retries < 1) {
+        retries += 1
+        setTimeout(() => runTask(task).then(resolveRun), 15 * 1000)
+        return
+      }
       resolveRun({
         ok: code === 0,
         answer: parsed.finalText,

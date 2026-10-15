@@ -31,8 +31,10 @@ test('classifyTask:关键词命中数更高者胜出', () => {
 })
 
 test('computeDenyList:画像 deny 模式转精确名', () => {
-  const deny = computeDenyList(DEFAULT_PROFILES[0]!, ['bash', 'read_file', 'write_file', 'grep'])
-  assert.deepEqual(deny, ['bash', 'write_file'])
+  // 已知工具名使用 dsh 内置工具的真实名称
+  const known = ['read', 'grep', 'glob', 'write', 'edit', 'bash', 'pwsh', 'job_kill']
+  const deny = computeDenyList(DEFAULT_PROFILES[0]!, known)
+  assert.deepEqual(deny, ['write', 'edit', 'bash', 'pwsh', 'job_kill'])
 })
 
 test('computeDanger:命令 > 写入 > 越界读 > 安全读', () => {

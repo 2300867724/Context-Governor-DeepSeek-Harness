@@ -15,8 +15,8 @@
           profiles:
             - id: read-only
               keywords: [查看, 检索, 搜索, 阅读, 分析, 理解, 定位, 排查, 解释, 总结, 梳理]
-              denyTools: [write_file, edit, apply_patch, save, create, delete, remove, install, bash, shell, terminal, run_code, exec]
-          knownTools: []
+              denyTools: [write, edit, bash, pwsh, job_kill]
+          knownTools: [read, read_image, grep, glob, write, edit, bash, pwsh, job_output, job_list, job_kill]
         guard:
           enabled: true
           workspaceRoots: [D:/context-governor]

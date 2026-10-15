@@ -22,9 +22,8 @@ export const DEFAULT_PROFILES: TaskProfile[] = [
       '解释', '总结', '梳理', '阅读代码', '看看', '了解',
     ],
     denyTools: [
-      'write_file', 'edit', 'apply_patch', 'replace', 'save', 'append',
-      'create', 'delete', 'remove', 'move', 'copy', 'install',
-      'bash', 'shell', 'terminal', 'run_code', 'exec', 'command',
+      // dsh 内置工具的真实名称(headless/web profile)
+      'write', 'edit', 'bash', 'pwsh', 'job_kill',
     ],
   },
 ]
