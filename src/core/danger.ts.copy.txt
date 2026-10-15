@@ -1,0 +1,1 @@
+Copy of src/core/danger.ts for inspection (working copy; original untouched).
