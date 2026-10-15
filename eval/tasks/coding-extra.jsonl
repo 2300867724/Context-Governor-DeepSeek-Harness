@@ -1,0 +1,1 @@
+{"taskId":"cd-extra-01","type":"comment","prompt":"(注释行,无需执行)eval/tasks/coding-extra.jsonl 是扩展编码任务槽位:新增任务沿用 coding.jsonl 的字段结构(taskId/type/prompt/accept),每行一个 JSON 对象追加即可。","accept":{"kind":"grep","file":"README.md","pattern":"coding-extra"}}

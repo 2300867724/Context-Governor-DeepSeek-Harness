@@ -44,8 +44,9 @@ function runTask(task) {
       '--import', 'file:///D:/deepseek-harness/node_modules/tsx/dist/loader.mjs',
       'D:/deepseek-harness/apps/cli/src/bin.ts',
       'headless',
-      '--json',
+      // 注意顺序:--patch 必须位于 headless 应用自有参数(--json)之前
       ...(mode === 'governed' ? ['--patch', PATCH] : []),
+      '--json',
       task.prompt,
     ]
     const child = spawn('node', args, {

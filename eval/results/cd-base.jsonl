@@ -1,0 +1,10 @@
+{"taskId":"cd-01","ok":true,"promptTokens":1585,"completionTokens":612,"steps":3,"denied":0}
+{"taskId":"cd-02","ok":false,"promptTokens":4735,"completionTokens":3513,"steps":15,"denied":0}
+{"taskId":"cd-03","ok":true,"promptTokens":5351,"completionTokens":4346,"steps":11,"denied":0}
+{"taskId":"cd-04","ok":true,"promptTokens":10927,"completionTokens":4212,"steps":27,"denied":0}
+{"taskId":"cd-05","ok":true,"promptTokens":809,"completionTokens":343,"steps":3,"denied":0}
+{"taskId":"cd-06","ok":true,"promptTokens":6855,"completionTokens":5839,"steps":16,"denied":0}
+{"taskId":"cd-07","ok":false,"promptTokens":7585,"completionTokens":9828,"steps":16,"denied":0}
+{"taskId":"cd-08","ok":true,"promptTokens":4422,"completionTokens":652,"steps":6,"denied":0}
+{"taskId":"cd-09","ok":true,"promptTokens":7442,"completionTokens":6917,"steps":16,"denied":0}
+{"taskId":"cd-10","ok":true,"promptTokens":4556,"completionTokens":4871,"steps":10,"denied":0}
