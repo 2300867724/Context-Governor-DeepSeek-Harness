@@ -1,1 +1,0 @@
-This file is a scratch copy of src/core/danger.ts used to work around a tooling issue.
