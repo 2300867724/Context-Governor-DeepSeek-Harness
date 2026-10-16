@@ -39,8 +39,8 @@ pnpm dsh web --patch D:/context-governor/cordis.patch.yml
           profiles:            # 任务画像,顺序即优先级
             - id: read-only
               keywords: [查看, 检索, 搜索, 阅读, 分析, 理解, 定位, 排查, 总结]
-              denyTools: [write_file, edit, apply_patch, bash, shell, terminal, run_code]
-          knownTools: []       # 全局工具名清单(deny 模式在此范围内匹配)
+              denyTools: [write, edit, bash, pwsh, job_kill]  # dsh 内置工具名,按需调整
+          knownTools: [read, grep, glob, write, edit, bash, pwsh]   # 全局工具名清单(deny 模式在此范围内匹配,必须填写)
         guard:
           enabled: true
           workspaceRoots: [D:/workspace]   # 工作区根;空 = 仅按工具名分级
