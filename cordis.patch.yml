@@ -11,15 +11,13 @@
           profiles:
             - id: read-only
               keywords: [查看, 检索, 搜索, 阅读, 分析, 理解, 定位, 排查, 解释, 总结, 梳理]
-              denyTools: [write_file, edit, apply_patch, save, create, delete, remove, install, bash, shell, terminal, run_code, exec]
+              denyTools: [write, edit, bash, pwsh, job_kill]
           knownTools: []
         guard:
           enabled: true
           workspaceRoots: []
           readOutside: ask
-          # 演示配置：guard 的 write 策略设为 deny，用于展示写操作被策略拦截的效果。
-          # 若需实际编辑文件，请改回 ask 或 allow。
-          write: deny
+          write: ask
           command: ask
         pruner:
           enabled: true
