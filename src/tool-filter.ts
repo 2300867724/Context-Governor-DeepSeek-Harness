@@ -27,18 +27,29 @@ function extractText(message: UserMessage): string {
 export function attachToolFilter(ctx: Context, config: ResolvedConfig['toolFilter']): void {
   if (!config.enabled) return
 
-  // restrict 作用于"调用方所在的 agent 作用域":监听器在 agent 作用域内
-  // 派发时,通过外层 ctx.tools 调用即可命中当前作用域。
-  const tools = ctx.tools
+  // 每个 agent 当前生效的裁剪 disposer。restrict() 必须在 agent 作用域内
+  // 调用(scopeOf(ctx) 必须能解析出 agent),因此使用 payload.agent.ctx;
+  // 每步先撤销上一步的限制再重新计算,避免限制累积。
+  const restrictions = new WeakMap<object, () => void>()
 
   ctx.on('agent/pre-step', async function (payload, next) {
     try {
+      const previous = restrictions.get(payload.agent)
+      previous?.()
+      restrictions.delete(payload.agent)
+
       const text = payload.messages.map(extractText).join('\n')
       const profile = classifyTask(text, config.profiles)
       if (profile) {
-        const deny = computeDenyList(profile, config.knownTools)
+        // 以运行时实际注册的工具为准:restrict() 遇到未注册的名字会整体抛错
+        // (不同平台工具集不同,如 Windows 只有 pwsh、Linux 只有 bash)。
+        const visible = new Set(payload.agent.ctx.tools.schemas().map(s => s.name))
+        const candidates = config.knownTools.length > 0 ? config.knownTools : [...visible]
+        const deny = computeDenyList(profile, candidates).filter(name => visible.has(name))
         if (deny.length > 0) {
-          tools.restrict({ deny })
+          // restrict 必须在 agent 作用域内调用:使用 agent.ctx
+          restrictions.set(payload.agent, payload.agent.ctx.tools.restrict({ deny }))
+
         }
       }
     } catch (error) {
