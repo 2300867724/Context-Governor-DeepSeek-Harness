@@ -82,11 +82,11 @@ npm run typecheck # 对照 deepseek-harness 源码做类型检查
 
 ## 量化评测
 
-`eval/` 目录包含评测方案:自建编码任务集,对比开/关本插件时的 token 用量、任务完成率与权限拦截情况。任务集位于 `eval/tasks/`,其中 `coding-extra.jsonl` 为扩展编码任务槽位(以一行注释性 JSON 记录字段结构,新增任务按 `coding.jsonl` 的格式追加即可)。
+`eval/` 目录包含评测方案:自建任务集(只读 10 题 + 编码 10 题),对比开/关本插件时的 token 用量与任务完成率。任务集位于 `eval/tasks/`,其中 `coding-extra.jsonl` 为扩展编码任务槽位(以一行注释性 JSON 记录字段结构,新增任务按 `coding.jsonl` 的格式追加即可)。
 
 - [eval/README.md](eval/README.md)
 
-> 对照评测结果(20 题任务集,headless profile,DeepSeek 模型):只读任务开启插件后完成率 100%→100%、平均总 token 14702→14351(-2.4%)、平均步骤数 13.0→11.8;编码任务完成率 90%→90%。完整数据见 [eval/README.md](eval/README.md)。
+> 对照评测结果(10 题只读任务集,headless profile,DeepSeek 模型):开启插件后任务完成率 100%→100% 不下降;平均总 token 15166→14264(-6.0%),平均 prompt tokens 11300→10660(-5.7%),prompt 峰值 75894→51742(-31.8%),平均步骤数 9.3→9.5 基本持平。完整数据见 [eval/README.md](eval/README.md)。
 
 ## Roadmap
 

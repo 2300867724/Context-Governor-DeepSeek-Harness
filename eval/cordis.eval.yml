@@ -25,7 +25,7 @@
           command: allow
         pruner:
           enabled: true
-          threshold: 600
-          head: 120
-          tail: 120
-          goalKeywords: [src/core, tests, README]
+          threshold: 8000
+          head: 1200
+          tail: 1200
+          goalKeywords: []
