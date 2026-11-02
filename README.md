@@ -1,5 +1,6 @@
 # Context Governor — DeepSeek Harness 上下文治理插件
 
+[![CI](https://github.com/2300867724/Context-Governor-DeepSeek-Harness/actions/workflows/ci.yml/badge.svg)](https://github.com/2300867724/Context-Governor-DeepSeek-Harness/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)(dsh)提供的上下文治理插件,解决 Agent 多轮任务中的三个问题:
@@ -94,7 +95,7 @@ npm run typecheck # 对照 deepseek-harness 源码做类型检查
 - [x] dsh 适配层(工具裁剪 / 权限闸门 / 剪枝服务)
 - [ ] 与 compaction-basic 联调,补齐 shadow-price 记账协议
 - [ ] 任务画像支持 LLM 分类器(可选,替换关键词规则)
-- [ ] 评测脚本与基准数据
+- [x] 评测脚本与基准数据
 
 ## License
 

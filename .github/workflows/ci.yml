@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      # typecheck 依赖本地 deepseek-harness 源码映射(tsconfig.paths.json),
+      # 不适合在 CI 中重建,这里只跑无外部依赖的核心逻辑单测。
+      - name: Run unit tests
+        run: npm test
