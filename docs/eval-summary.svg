@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-label="Context Governor evaluation: average total tokens 15166 to 14264, average prompt tokens 11300 to 10660, prompt peak 75894 to 51742 across 10 read-only tasks.">
+  <rect width="960" height="420" fill="#ffffff"/>
+
+  <text x="40" y="44" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#1f2328">Context Governor · Evaluation</text>
+  <text x="40" y="70" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#59636e">10 read-only tasks · dsh headless · production default prune threshold (8000) · lower is better</text>
+
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">
+    <rect x="726" y="40" width="12" height="12" rx="2" fill="#afb8c1"/>
+    <text x="744" y="50" fill="#59636e">Baseline</text>
+    <rect x="816" y="40" width="12" height="12" rx="2" fill="#0969da"/>
+    <text x="834" y="50" fill="#59636e">Governed</text>
+  </g>
+
+  <!-- Panel 1: average total tokens -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <text x="40" y="112" font-size="14" font-weight="600" fill="#1f2328">Average total tokens</text>
+    <line x1="40" y1="300" x2="320" y2="300" stroke="#d0d7de" stroke-width="1"/>
+    <rect x="76" y="138.9" width="56" height="161.1" rx="4" fill="#afb8c1"/>
+    <rect x="148" y="148.4" width="56" height="151.6" rx="4" fill="#0969da"/>
+    <text x="104" y="130.9" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">15,166</text>
+    <text x="176" y="140.4" font-size="14" font-weight="600" fill="#0969da" text-anchor="middle">14,264</text>
+    <text x="140" y="334" font-size="16" font-weight="600" fill="#1a7f37" text-anchor="middle">-6.0%</text>
+  </g>
+
+  <!-- Panel 2: average prompt tokens -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <text x="340" y="112" font-size="14" font-weight="600" fill="#1f2328">Average prompt tokens</text>
+    <line x1="340" y1="300" x2="620" y2="300" stroke="#d0d7de" stroke-width="1"/>
+    <rect x="376" y="139.9" width="56" height="160.1" rx="4" fill="#afb8c1"/>
+    <rect x="448" y="149.0" width="56" height="151.0" rx="4" fill="#0969da"/>
+    <text x="404" y="131.9" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">11,300</text>
+    <text x="476" y="141.0" font-size="14" font-weight="600" fill="#0969da" text-anchor="middle">10,660</text>
+    <text x="440" y="334" font-size="16" font-weight="600" fill="#1a7f37" text-anchor="middle">-5.7%</text>
+  </g>
+
+  <!-- Panel 3: prompt peak -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <text x="640" y="112" font-size="14" font-weight="600" fill="#1f2328">Prompt peak</text>
+    <line x1="640" y1="300" x2="920" y2="300" stroke="#d0d7de" stroke-width="1"/>
+    <rect x="676" y="138.7" width="56" height="161.3" rx="4" fill="#afb8c1"/>
+    <rect x="748" y="190.0" width="56" height="110.0" rx="4" fill="#0969da"/>
+    <text x="704" y="130.7" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">75,894</text>
+    <text x="776" y="182.0" font-size="14" font-weight="600" fill="#0969da" text-anchor="middle">51,742</text>
+    <text x="740" y="334" font-size="16" font-weight="600" fill="#1a7f37" text-anchor="middle">-31.8%</text>
+  </g>
+
+  <line x1="40" y1="362" x2="920" y2="362" stroke="#d8dee4" stroke-width="1"/>
+  <text x="40" y="390" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#59636e">Task completion 10/10 → 10/10 · avg steps 9.3 → 9.5 · raw data: eval/results/ro-base.jsonl, ro-gov.jsonl</text>
+</svg>

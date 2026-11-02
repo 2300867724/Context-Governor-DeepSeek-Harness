@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/2300867724/Context-Governor-DeepSeek-Harness/actions/workflows/ci.yml/badge.svg)](https://github.com/2300867724/Context-Governor-DeepSeek-Harness/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
 
 为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)(dsh)提供的上下文治理插件,解决 Agent 多轮任务中的三个问题:
 
@@ -73,6 +74,59 @@ src/
 
 核心逻辑与 dsh 适配层分离:分类、分级、剪枝算法全部是纯函数,可用 `node --test` 独立验证与复现。
 
+```mermaid
+flowchart TB
+  DSH["DeepSeek Harness<br/>Cordis 插件运行时"] --> IDX
+
+  subgraph CG["Context Governor"]
+    IDX["index.ts<br/>ContextGovernor (Service)"]
+    TF["tool-filter.ts<br/>agent/pre-step"]
+    GD["guard.ts<br/>tools/pre-execute"]
+    PR["pruner.ts<br/>toolResultPruner"]
+
+    subgraph CORE["core/ 纯函数,无 dsh 依赖"]
+      CL["classify.ts<br/>任务画像 / 工具匹配"]
+      DG["danger.ts<br/>危险分级 / 路径边界"]
+      PU["prune.ts<br/>头尾 + 目标行剪枝"]
+    end
+
+    IDX --> TF
+    IDX --> GD
+    IDX --> PR
+    TF --> CL
+    GD --> DG
+    PR --> PU
+  end
+```
+
+一次任务的执行路径:
+
+```mermaid
+sequenceDiagram
+  participant U as 用户
+  participant A as Agent
+  participant CG as Context Governor
+  participant T as 工具
+
+  U->>A: 任务消息
+  A->>CG: agent/pre-step
+  CG->>CG: 分类任务 → tools.restrict(deny)
+  CG-->>A: 放行(只读任务隐藏写/命令工具)
+  A->>A: 模型请求(仅可见工具)
+  A->>CG: tools/pre-execute
+  CG->>CG: 危险分级 → allow / ask / deny
+  alt allow
+    CG-->>T: 执行工具
+    T-->>CG: 工具结果
+    opt 超过 8000 字符
+      CG->>CG: 分层剪枝(保留头/尾/目标行)
+    end
+    CG-->>A: 结果进入会话
+  else ask / deny
+    CG-->>A: 拦截并说明原因
+  end
+```
+
 ## 本地测试
 
 ```bash
@@ -88,6 +142,8 @@ npm run typecheck # 对照 deepseek-harness 源码做类型检查
 - [eval/README.md](eval/README.md)
 
 > 对照评测结果(10 题只读任务集,headless profile,DeepSeek 模型):开启插件后任务完成率 100%→100% 不下降;平均总 token 15166→14264(-6.0%),平均 prompt tokens 11300→10660(-5.7%),prompt 峰值 75894→51742(-31.8%),平均步骤数 9.3→9.5 基本持平。完整数据见 [eval/README.md](eval/README.md)。
+
+![评测结果](docs/eval-summary.png)
 
 ## Roadmap
 
